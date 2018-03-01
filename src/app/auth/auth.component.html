@@ -1,0 +1,60 @@
+
+<div class="container">
+  <div class="row">
+    <div style="margin-top:50px; border: red solid 0px;" class="col-md-6 col-sm-8 mx-auto">
+      <div class="card card-outline-primary">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-6 mx-auto">
+              <img class="" src="../../assets/bureauvalleelogo.png"  alt="BUREAU VALLEE">
+              <h2><span class="center-block">Sign In</span></h2>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-10 mx-auto">
+            <div style="padding-top:30px" class="card-block">
+
+              <form class="material-form" role="form" [formGroup]="rForm"  (ngSubmit)="addAuthenticate(rForm.value)">
+                <div id="login-alert" class="alert alert-danger col-sm-12" *ngIf="failiure">
+                  {{message}}
+                </div>
+                <div class="col-md-12" *ngIf="loading">
+                  <div class="row">
+                    <div class="col-2 mx-auto">
+                      <img src="../../assets/img/loader/loader1.gif" class="loader1-gif"/>
+                    </div>
+                  </div>
+                </div>
+                <mat-form-field class="full-width">
+
+                    <input matInput placeholder="Email" type="email" formControlName="email">
+
+                </mat-form-field>
+                <br><br>
+
+                <mat-form-field class="full-width" >
+                 <input matInput placeholder="Password" type="password" formControlName="password">
+                </mat-form-field>
+                <br><br>
+
+                <div class="form-group">
+                  <div class="col-sm-12 controls">
+                    <button type="submit" class="btn btn-info" [disabled]="!rForm.valid">Login</button>
+
+                  </div>
+                </div>
+
+                <br><br>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

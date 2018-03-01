@@ -1,0 +1,202 @@
+
+
+<div class="row">
+  <div class="col-12" *ngIf="user.getCanwritearticle()">
+    <button type="button" class="btn btn-sm btn-info pull-right"
+            (click)="openNewArticle(content)" >Nouveau Message</button>
+    <ng-template  #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Creer un nouveau message</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div  class="col-md-12">
+          <form  class="form-group-sm" role="form" [formGroup]="rFormNewArticle"
+                (ngSubmit)="createNewArticle(rFormNewArticle.value)">
+
+            <div class="col-md-12" *ngIf="loading">
+              <div class="row">
+                <div class="col-2 mx-auto">
+                  <img src="../../assets/img/loader/loader1.gif"  class="loader1-gif"/>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="failiure && message!= ''"  class="alert alert-danger col-sm-12">
+              {{message}}
+            </div>
+            <div *ngIf="success && message!= ''"   class="alert alert-success col-sm-12">{{message}}
+              <ul class="list-group" *ngIf="!(failedCustomerToSend === null) && failedCustomerToSend.length > 0">
+                <li class="list-group-item list-group-item-info">
+                  E-Mail n'ayant pas recu de message
+                </li>
+                <li class="list-group-item " *ngFor="let elem of failedCustomerToSend">
+                  {{elem['firstname'] + '  ' + elem['lastname'] }}
+                  <span class="badge badge-info pull-right" style="font-size: small;">
+                    {{elem['email'] + '  (Tel: ' + elem['phonenumber'] + ')'}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="title">Titre</label>
+                <input type="text" class="form-control" name="title" placeholder="Titre" id="title"
+                       formControlName="title">
+
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="object">Objet</label>
+                <input type="text" class="form-control" name="object" placeholder="Objet" id="object"
+                       formControlName="object">
+
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="body">Message</label>
+                <textarea class="form-control" name="body" id="body" placeholder="Votre message ici"
+                          onkeyup="" maxlength="5000" rows="8" formControlName="body"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-12">
+                <button type="button" class="btn btn-danger btn-sm pull-right" (click)="abandonne()" >Close</button>
+                <button  type="button" class="btn btn-info btn-sm pull-right" style="margin-right: 10px;"
+                (click)="publish()" [disabled]="createdArticle == null">
+                  <i class="fa fa-send"></i>Publier</button>
+                <button  type="submit"
+                         class="btn btn-info btn-sm pull-right" style="margin-right: 10px;"
+                         [disabled]="!rFormNewArticle.valid"><i class="icon-hand-right"></i>Create</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </ng-template>
+
+  </div>
+
+</div>
+
+
+
+
+<div class="col-md-12" *ngIf="loading">
+  <div class="row">
+    <div class="col-2 mx-auto">
+      <img src="../../assets/img/loader/loader1.gif"  class="loader1-gif"/>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="failiure && message!= ''"  class="alert alert-danger col-sm-12">
+  {{message}}
+</div>
+<div *ngIf="success && message!= ''"   class="alert alert-success col-sm-12">{{message}}
+  <ul class="list-group" *ngIf="!(failedCustomerToSend === null) && failedCustomerToSend.length > 0">
+    <li class="list-group-item list-group-item-info">
+      E-Mail n'ayant pas recu de message
+    </li>
+    <li class="list-group-item " *ngFor="let elem of failedCustomerToSend">
+      {{elem['firstname'] + '  ' + elem['lastname'] }}
+      <span class="badge badge-info pull-right" style="font-size: small;">
+                    {{elem['email'] + '  (Tel: ' + elem['phonenumber'] + ')'}}</span>
+    </li>
+  </ul>
+</div>
+
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource" matSort>
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> No. #</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._id}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._title}} </mat-cell>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="object">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Objet </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._object}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="body">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Message </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.body}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createdBy">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Initie par </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._createdByName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Initie le </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._createdAt}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="updatedAt">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Ajourne le </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._updatedAt}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="publishedBy">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Publie par </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._publishedByName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="publishedOn">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Publie Le </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element._publishedOn}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button      class="btn btn-sm btn-link" *ngIf="user.getCanwritearticle()">
+          <i class="fa fa-pencil"></i> Modidifer
+        </button>
+        <button      class="btn btn-sm btn-link" *ngIf="user.getCanwritearticle()">
+          <i class="fa fa-remove"></i> Supprimer
+        </button>
+        <button      class="btn btn-sm btn-link"
+                     *ngIf="user.getCanwritearticle() && user.getCanpublisharticle()"
+        (click)="publier(element._id)">
+          <i class="fa fa-send"></i> Publier
+        </button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+  </mat-table>
+
+  <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>
+
+<br>
+<br><br><br><br>

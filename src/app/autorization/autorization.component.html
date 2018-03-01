@@ -1,0 +1,91 @@
+
+<div class="row">
+  <div class="col-md-2" id="dg_logo" style="border: red 0px solid; padding: 0px; padding-top: 20px;">
+    <ul style="border: blue 0px solid; padding: 0px;"><li><app-header></app-header></li></ul></div>
+  <div class="col-md-10">
+    <div id='cssmenu' class="navbar fixed-top">
+
+      <ul id="menu_horizontal">
+        <li *ngIf="canManageArticles()" class="nav-item active" #articles>
+          <a class="nav-link"  [routerLink]="['articles']" (click)="manageActiveLink($event);">Articles</a>
+        </li>
+        <li class="nav-item" #customers>
+          <a class="nav-link"  [routerLink]="['customers']" (click)="manageActiveLink($event);">Clients</a>
+        </li>
+        <li class="nav-item dropdown" ngbDropdown>
+          <button class="nav-link dropdown-toggle btn btn-link btn-sm" id="dropdown01" ngbDropdownToggle>
+            <i class="fa fa-user"></i> {{user.getName()}}
+            <span class="caret"></span>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdown01" ngbDropdownMenu>
+            <button class="btn btn-sm  btn-link dropdown-item" (click)="openChangePasswordUI(content)">Change Password</button>
+            <button class="btn btn-sm  btn-link dropdown-item"  (click)="gotoLogout($event)"> <i class="fa fa-power-off"></i> Logout</button>
+            <button class="btn btn-sm btn-link dropdown-item" (click)="gotoHome($event)">User: {{user.getName() + ' [' +  user.getEmail() +']'}} </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<ng-template  #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Change Password</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div  class="col-md-12">
+      <form id="changepassword" class="form-group-sm" role="form" [formGroup]="rForm" (ngSubmit)="changePassword(rForm.value)">
+        <div *ngIf="failiure" id="changepasswordalerterror" class="alert alert-danger">
+          <span>{{message}}</span>
+        </div>
+        <div *ngIf="success" id="changepasswordalertsuccess"  class="alert alert-success">
+          <span>{{message}}</span>
+        </div>
+        <div class="col-md-12 col-md-offset-1">
+          <div class="form-group">
+            <label for="currentpassword">Current Password</label>
+            <input type="password" class="form-control" name="currentpassword" placeholder="Your actual Password" id="currentpassword"
+                   formControlName="currentpassword">
+
+          </div>
+        </div>
+
+        <div class="col-md-12 col-md-offset-1">
+          <div class="form-group">
+            <label for="newpassword">New Password</label>
+            <input type="password" class="form-control" name="newpassword" placeholder="New Password" id="newpassword"
+                   formControlName="newpassword">
+          </div>
+        </div>
+
+        <div class="col-md-12 col-md-offset-1">
+          <div class="form-group">
+            <label for="newpasswordrep">Repeat The New Password</label>
+            <input type="password" class="form-control" name="newpasswordrep" placeholder="Repeat the New Password" id="newpasswordrep"
+                   formControlName="newpasswordrep">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12">
+            <button type="button" class="btn btn-danger btn-sm pull-right" (click)="abandonne()">Close</button>
+            <button id="btn-changepassword" type="submit" class="btn btn-info btn-sm pull-right"
+                    style="margin-right: 10px;"><i class="icon-hand-right"></i>Change</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</ng-template>
+
+<router-outlet></router-outlet>
+
+<app-footer></app-footer>
+
+

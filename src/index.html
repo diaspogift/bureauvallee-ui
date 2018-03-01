@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BureauvalleeUi</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    .loader {
+      border: 3px solid #2abf31;
+      border-radius: 50%;
+      border-top: 3px solid #f0c14b;
+      border-bottom: 3px solid #f0c14b;
+      width: 60px;
+      height: 60px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+<div class="row">
+  <div class="col-11 mx-auto">
+  <app-root>
+    <div  style="margin: 0 auto; margin-top: 200px;">
+      <div class="col-1 mx-auto">
+        <div class="loader "></div>
+      </div>
+    </div>
+  </app-root>
+  </div>
+</div>
+</body>
+</html>

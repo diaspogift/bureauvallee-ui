@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.css";
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+
+body {
+  padding-top: 10pt;
+  font-size: small;
+
+  /*background:#e8e8e8;*/
+  background:#ffffff;
+  font-family: "DejaVu Serif";
+}
+
+.loader1-gif{
+  height: 60px;
+  width: 50px;
+}
+
+.bg-dark {
+  background-color: #e2b635 !important;
+  color: #0a136e;
+}
